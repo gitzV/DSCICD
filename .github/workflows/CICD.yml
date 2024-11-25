@@ -22,19 +22,19 @@ jobs:
       shell: bash
       run: |
         if [ "$BRANCH_NAME" == "dev" ]; then
-            SNOWSQL_ACCOUNT= ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
-            SNOWSQL_USER=  ${{ secrets.SNOWFLAKE_USER_PROD }}
-            SNOWSQL_PWD=  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
+          echo "SNOWSQL_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_DEV }}" >> $GITHUB_ENV
+          echo "SNOWSQL_USER=${{ secrets.SNOWFLAKE_USER_DEV }}" >> $GITHUB_ENV
+          echo "SNOWSQL_PWD=${{ secrets.SNOWFLAKE_PASSWORD_DEV }}" >> $GITHUB_ENV
         elif [ "$BRANCH_NAME" == "qa" ]; then
-            SNOWSQL_ACCOUNT= ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
-            SNOWSQL_USER=  ${{ secrets.SNOWFLAKE_USER_PROD }}
-            SNOWSQL_PWD=  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
+          echo "SNOWSQL_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_QA }}" >> $GITHUB_ENV
+          echo "SNOWSQL_USER=${{ secrets.SNOWFLAKE_USER_QA }}" >> $GITHUB_ENV
+          echo "SNOWSQL_PWD=${{ secrets.SNOWFLAKE_PASSWORD_QA }}" >> $GITHUB_ENV
         elif [ "$BRANCH_NAME" == "main" ]; then
-            SNOWSQL_ACCOUNT= ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
-            SNOWSQL_USER=  ${{ secrets.SNOWFLAKE_USER_PROD }}
-            SNOWSQL_PWD=  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
+          echo "SNOWSQL_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}" >> $GITHUB_ENV
+          echo "SNOWSQL_USER=${{ secrets.SNOWFLAKE_USER_PROD }}" >> $GITHUB_ENV
+          echo "SNOWSQL_PWD=${{ secrets.SNOWFLAKE_PASSWORD_PROD }}" >> $GITHUB_ENV
         fi
-        
+    
     - name: Debug Snowflake Account
       run: |
         echo "SNOWFLAKE_ACCOUNT=$SNOWSQL_ACCOUNT"
