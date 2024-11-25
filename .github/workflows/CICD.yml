@@ -39,6 +39,27 @@ jobs:
           echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_MAIN }}" >> $GITHUB_ENV
         fi
 
+
+    - name: Configure SnowSQL
+      env:
+        SNOWSQL_ACCOUNT: gxkmoso-pb31214.snowflakecomputing.com
+        SNOWSQL_USER:  SANJAY
+        SNOWSQL_PWD:  Temp@123$ 
+      run: |
+        mkdir -p ~/.snowsql
+        cat > ~/.snowsql/config << EOF
+        [connections]
+        accountname = gxkmoso-pb31214
+        username = SANJAY
+        password = Temp@123$
+        role = ACCOUNTADMIN
+        EOF
+        chmod 600 ~/.snowsql/config
+
+    - name: Verify SnowSQL installation
+      run: snowsql -v  
+
+
     - name: Execute SQL Scripts
       run: |
         for file in ./scripts/*.sql; do
