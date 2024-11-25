@@ -59,3 +59,7 @@ jobs:
         FULL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
       run: echo "$FULL_ACCOUNT"
 
+    - name: Run SnowSQL show db Command
+      run: snowsql -q "SHOW DATABASES;"   
+
+
