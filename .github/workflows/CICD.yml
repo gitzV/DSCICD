@@ -42,6 +42,18 @@ jobs:
           echo "SNOWSQL_PWD=${{ secrets.SNOWFLAKE_PASSWORD_PROD }}" >> $GITHUB_ENV
         fi
 
+    - name: Configure SnowSQL
+      run: |
+        mkdir -p ~/.snowsql
+        cat > ~/.snowsql/config << EOF
+        [connections]
+        accountname = SNOWSQL_ACCOUNT
+        username = SNOWSQL_USER
+        password = SNOWSQL_PWD
+        role = ACCOUNTADMIN
+        EOF
+        chmod 600 ~/.snowsql/config
+
     - name: Debug Snowflake Account
       env:
         FULL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
