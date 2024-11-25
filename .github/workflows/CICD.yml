@@ -39,12 +39,6 @@ jobs:
           echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_MAIN }}" >> $GITHUB_ENV
         fi
 
-    - name: Verify SnowSQL installation
-      run: snowsql -v  
-
-    - name: Run SnowSQL show db Command
-      run: snowsql -q "SHOW DATABASES;"   
-
 
     - name: Configure SnowSQL
       env:
@@ -62,8 +56,12 @@ jobs:
         EOF
         chmod 600 ~/.snowsql/config
 
+
     - name: Verify SnowSQL installation
       run: snowsql -v  
+
+    - name: Run SnowSQL show db Command
+      run: snowsql -q "SHOW DATABASES;"   
 
 
     - name: Execute SQL Scripts
