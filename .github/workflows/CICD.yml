@@ -22,17 +22,17 @@ jobs:
       shell: bash
       run: |
         if [ "$BRANCH_NAME" == "dev" ]; then
-            SNOWSQL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
-            SNOWSQL_USER:  ${{ secrets.SNOWFLAKE_USER_PROD }}
-            SNOWSQL_PWD:  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
+            SNOWSQL_ACCOUNT= ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
+            SNOWSQL_USER=  ${{ secrets.SNOWFLAKE_USER_PROD }}
+            SNOWSQL_PWD=  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
         elif [ "$BRANCH_NAME" == "qa" ]; then
-            SNOWSQL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
-            SNOWSQL_USER:  ${{ secrets.SNOWFLAKE_USER_PROD }}
-            SNOWSQL_PWD:  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
+            SNOWSQL_ACCOUNT= ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
+            SNOWSQL_USER=  ${{ secrets.SNOWFLAKE_USER_PROD }}
+            SNOWSQL_PWD=  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
         elif [ "$BRANCH_NAME" == "main" ]; then
-            SNOWSQL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
-            SNOWSQL_USER:  ${{ secrets.SNOWFLAKE_USER_PROD }}
-            SNOWSQL_PWD:  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
+            SNOWSQL_ACCOUNT= ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
+            SNOWSQL_USER=  ${{ secrets.SNOWFLAKE_USER_PROD }}
+            SNOWSQL_PWD=  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}                    
         fi
         
     - name: Debug Snowflake Account
