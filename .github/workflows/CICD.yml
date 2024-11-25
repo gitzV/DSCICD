@@ -3,9 +3,9 @@ name: Snowflake CI/CD Pipeline
 on:
   push:
     branches:
-      - DEV
-      - QA
-      - PROD
+      - dev
+      - qa
+      - main
 
 jobs:
   deploy:
@@ -19,18 +19,18 @@ jobs:
       env:
         ENV: ${{ github.ref_name }}
       run: |
-        if [ "$ENV" == "DEV" ]; then
+        if [ "$ENV" == "dev" ]; then
           echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_DEV }}" >> $GITHUB_ENV
           echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_DEV }}" >> $GITHUB_ENV
           echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_DEV }}" >> $GITHUB_ENV
-        elif [ "$ENV" == "QA" ]; then
+        elif [ "$ENV" == "qa" ]; then
           echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_QA }}" >> $GITHUB_ENV
           echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_QA }}" >> $GITHUB_ENV
           echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_QA }}" >> $GITHUB_ENV
-        elif [ "$ENV" == "PROD" ]; then
-          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}" >> $GITHUB_ENV
-          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_PROD }}" >> $GITHUB_ENV
-          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_PROD }}" >> $GITHUB_ENV
+        elif [ "$ENV" == "main" ]; then
+          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_MAIN }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_MAIN }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_MAIN }}" >> $GITHUB_ENV
         fi
 
     - name: Execute SQL Scripts
@@ -48,19 +48,18 @@ jobs:
           grep "FAILED" test_output.txt && exit 1 || echo "Test passed"
         done
 
-    - name: Promote Code
-      if: success() && github.ref_name == 'DEV'
+    - name: Promote Code to qa
+      if: success() && github.ref_name == 'dev'
       run: |
-        echo "Promoting code to QA..."
-        git checkout QA
-        git merge DEV
-        git push origin QA
+        echo "Promoting code to qa..."
+        git checkout qa
+        git merge dev
+        git push origin qa
 
-    - name: Promote Code
-      if: success() && github.ref_name == 'QA'
+    - name: Promote Code to main
+      if: success() && github.ref_name == 'qa'
       run: |
-        echo "Promoting code to PROD..."
-        git checkout PROD
-        git merge QA
-        git push origin PROD
-
+        echo "Promoting code to main..."
+        git checkout main
+        git merge qa
+        git push origin main
