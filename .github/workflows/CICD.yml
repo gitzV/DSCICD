@@ -51,6 +51,8 @@ jobs:
         username = SNOWSQL_USER
         password = SNOWSQL_PWD
         role = ACCOUNTADMIN
+        database = DV
+        schema = DirectSpend
         EOF
         chmod 600 ~/.snowsql/config
 
