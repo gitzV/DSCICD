@@ -21,27 +21,24 @@ jobs:
         SNOWSQL_DEST=~/snowflake SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.2.9-linux_x86_64.bash
         echo "~/snowflake" >> $GITHUB_PATH 
 
-        - name: Set Environment Variables
-  shell: bash
-  env:
-    ENV: ${{ github.ref_name }}
-  run: |
-    if [ "$ENV" == "dev" ]; then
-      echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_DEV }}" >> $GITHUB_ENV
-      echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_DEV }}" >> $GITHUB_ENV
-      echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_DEV }}" >> $GITHUB_ENV
-    elif [ "$ENV" == "qa" ]; then
-      echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_QA }}" >> $GITHUB_ENV
-      echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_QA }}" >> $GITHUB_ENV
-      echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_QA }}" >> $GITHUB_ENV
-    elif [ "$ENV" == "main" ]; then
-      echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_MAIN }}" >> $GITHUB_ENV
-      echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_MAIN }}" >> $GITHUB_ENV
-      echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_MAIN }}" >> $GITHUB_ENV
-    else
-      echo "Unsupported branch name: $ENV"
-      exit 1
-    fi
+    - name: Set Environment Variables
+      env:
+        ENV: ${{ github.ref_name }}
+      run: |
+        if [ "$ENV" == "dev" ]; then
+          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_DEV }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_DEV }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_DEV }}" >> $GITHUB_ENV
+        elif [ "$ENV" == "qa" ]; then
+          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_QA }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_QA }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_QA }}" >> $GITHUB_ENV
+        elif [ "$ENV" == "main" ]; then
+          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_PROD }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_PROD }}" >> $GITHUB_ENV
+        fi
+        echo $SNOWFLAKE_ACCOUNT
 
 
 
