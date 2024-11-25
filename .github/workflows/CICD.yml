@@ -33,10 +33,10 @@ jobs:
           echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_QA }}" >> $GITHUB_ENV
           echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_QA }}" >> $GITHUB_ENV
           echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_QA }}" >> $GITHUB_ENV
-        elif [ "$ENV" == "main" ]; then
-          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_MAIN }}" >> $GITHUB_ENV
-          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_MAIN }}" >> $GITHUB_ENV
-          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_MAIN }}" >> $GITHUB_ENV
+        elif [ "$ENV" == "main" ]; then  
+          SNOWSQL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
+          SNOWSQL_USER:  ${{ secrets.SNOWFLAKE_USER_PROD }}
+          SNOWSQL_PWD:  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}        
         fi
 
 
@@ -49,9 +49,9 @@ jobs:
         mkdir -p ~/.snowsql
         cat > ~/.snowsql/config << EOF
         [connections]
-        accountname = ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
-        username = ${{ secrets.SNOWFLAKE_USER_PROD }}
-        password = ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}
+        accountname = SNOWSQL_ACCOUNT
+        username = SNOWSQL_USER
+        password = SNOWSQL_PWD
         role = ACCOUNTADMIN
         EOF
         chmod 600 ~/.snowsql/config
