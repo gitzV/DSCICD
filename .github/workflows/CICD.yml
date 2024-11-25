@@ -34,7 +34,9 @@ jobs:
           echo "SNOWSQL_USER=${{ secrets.SNOWFLAKE_USER_PROD }}" >> $GITHUB_ENV
           echo "SNOWSQL_PWD=${{ secrets.SNOWFLAKE_PASSWORD_PROD }}" >> $GITHUB_ENV
         fi
-    
+
     - name: Debug Snowflake Account
-      run: |
-        echo "SNOWFLAKE_ACCOUNT=$SNOWSQL_ACCOUNT"
+      env:
+        FULL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
+      run: echo "$FULL_ACCOUNT"
+
