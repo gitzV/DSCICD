@@ -28,7 +28,6 @@ jobs:
     
     - name: Debug Snowflake Account
       run: |
-        echo "::add-mask::$SNOWFLAKE_ACCOUNT"
         echo "SNOWFLAKE_ACCOUNT=$SNOWFLAKE_ACCOUNT"
       env:
         SNOWFLAKE_ACCOUNT: ${{ env.SNOWFLAKE_ACCOUNT }}
