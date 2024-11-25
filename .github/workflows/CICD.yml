@@ -42,16 +42,16 @@ jobs:
 
     - name: Configure SnowSQL
       env:
-        SNOWSQL_ACCOUNT: gxkmoso-pb31214.snowflakecomputing.com
-        SNOWSQL_USER:  SANJAY
-        SNOWSQL_PWD:  Temp@123$ 
+        SNOWSQL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
+        SNOWSQL_USER:  ${{ secrets.SNOWFLAKE_USER_PROD }}
+        SNOWSQL_PWD:  ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}
       run: |
         mkdir -p ~/.snowsql
         cat > ~/.snowsql/config << EOF
         [connections]
-        accountname = gxkmoso-pb31214
-        username = SANJAY
-        password = Temp@123$
+        accountname = ${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}
+        username = ${{ secrets.SNOWFLAKE_USER_PROD }}
+        password = ${{ secrets.SNOWFLAKE_PASSWORD_PROD }}
         role = ACCOUNTADMIN
         EOF
         chmod 600 ~/.snowsql/config
