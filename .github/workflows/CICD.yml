@@ -64,7 +64,7 @@ jobs:
 
     - name: Execute SQL Scripts
       run: |
-        for file in ./scripts/*.sql; do
+        for file in ./scripts/snowflake/*.sql; do
           echo "Executing $file"
           snowsql -f "$file"
         done
