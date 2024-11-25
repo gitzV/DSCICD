@@ -1,1 +1,66 @@
+name: Snowflake CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - DEV
+      - QA
+      - PROD
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set Environment Variables
+      env:
+        ENV: ${{ github.ref_name }}
+      run: |
+        if [ "$ENV" == "DEV" ]; then
+          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_DEV }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_DEV }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_DEV }}" >> $GITHUB_ENV
+        elif [ "$ENV" == "QA" ]; then
+          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_QA }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_QA }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_QA }}" >> $GITHUB_ENV
+        elif [ "$ENV" == "PROD" ]; then
+          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_PROD }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER_PROD }}" >> $GITHUB_ENV
+          echo "SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD_PROD }}" >> $GITHUB_ENV
+        fi
+
+    - name: Execute SQL Scripts
+      run: |
+        for file in ./scripts/*.sql; do
+          echo "Executing $file"
+          snowsql -a $SNOWFLAKE_ACCOUNT -u $SNOWFLAKE_USER -p $SNOWFLAKE_PASSWORD -f $file
+        done
+
+    - name: Run Test Queries
+      run: |
+        for test in ./test/*.sql; do
+          echo "Running test $test"
+          snowsql -a $SNOWFLAKE_ACCOUNT -u $SNOWFLAKE_USER -p $SNOWFLAKE_PASSWORD -f $test > test_output.txt
+          grep "FAILED" test_output.txt && exit 1 || echo "Test passed"
+        done
+
+    - name: Promote Code
+      if: success() && github.ref_name == 'DEV'
+      run: |
+        echo "Promoting code to QA..."
+        git checkout QA
+        git merge DEV
+        git push origin QA
+
+    - name: Promote Code
+      if: success() && github.ref_name == 'QA'
+      run: |
+        echo "Promoting code to PROD..."
+        git checkout PROD
+        git merge QA
+        git push origin PROD
 
