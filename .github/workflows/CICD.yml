@@ -32,4 +32,3 @@ jobs:
         echo "SNOWFLAKE_ACCOUNT=$SNOWFLAKE_ACCOUNT"
       env:
         SNOWFLAKE_ACCOUNT: ${{ env.SNOWFLAKE_ACCOUNT }}
-		
