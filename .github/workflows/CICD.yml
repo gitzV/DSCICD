@@ -62,4 +62,10 @@ jobs:
     - name: Run SnowSQL show db Command
       run: snowsql -q "SHOW DATABASES;"   
 
+    - name: Execute SQL Scripts
+      run: |
+        for file in ./scripts/*.sql; do
+          echo "Executing $file"
+          snowsql -a $SNOWSQL_ACCOUNT -u $SNOWSQL_USER -p $SNOWSQL_PWD -f $file
+        done
 
