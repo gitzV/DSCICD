@@ -15,6 +15,13 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
+    - name: Install snowsql
+      run: |
+        # Install snowsql
+        curl -O https://s3.amazonaws.com/snowflake-client-releases/snowsql/1.2.20/snowsql-1.2.20-linux_x86_64.btar.gz
+        tar -xvzf snowsql-1.2.20-linux_x86_64.btar.gz
+        sudo ./snowsql-1.2.20-linux_x86_64/install.sh
+
     - name: Set Environment Variables
       env:
         ENV: ${{ github.ref_name }}
