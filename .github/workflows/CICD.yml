@@ -22,13 +22,13 @@ jobs:
       shell: bash
       run: |
         if [ "$BRANCH_NAME" == "dev" ]; then
-          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_DEV }}" >> $GITHUB_ENV
+            echo "SNOWFLAKE_ACCOUNT=" >> $GITHUB_ENV
         elif [ "$BRANCH_NAME" == "qa" ]; then
-          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_QA }}" >> $GITHUB_ENV
+            echo "SNOWFLAKE_ACCOUNT=" >> $GITHUB_ENV
         elif [ "$BRANCH_NAME" == "main" ]; then
-          echo "SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT_MAIN }}" >> $GITHUB_ENV
+            echo "SNOWFLAKE_ACCOUNT=" >> $GITHUB_ENV
         fi
-
+        
     - name: Debug Snowflake Account
       run: |
         echo "SNOWFLAKE_ACCOUNT=$SNOWFLAKE_ACCOUNT"
